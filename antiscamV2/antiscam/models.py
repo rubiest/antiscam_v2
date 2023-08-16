@@ -8,6 +8,7 @@ class CustomUser(AbstractUser):
     phone = models.CharField(max_length=13, default='')
     location = models.CharField(max_length=30, default='')
     profile_number = models.CharField(max_length=7, default='')
+    old_email = models.CharField(max_length=255, blank=True, null=True, default='')
 
     def generate_profile_number(self):
         return ''.join([str(random.randint(0, 9)) for _ in range(7)])

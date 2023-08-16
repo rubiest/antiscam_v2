@@ -108,6 +108,7 @@ def activate(request, uidb64, token):
             myuser.token = None
             myuser.save()
             messages.success(request, "Your account has been successfully activated. Please login")
+            logout(request)
             return redirect('signin')
     
     # If user doesn't exist or token is invalid
@@ -194,6 +195,7 @@ def send_email_notification(user, new_username, new_email, request):
     if new_email != user.email:
         message += f"New Email: {new_email}\n"
         user.is_active = False
+        user.old_email = user.email
         user.token = generate_token.make_token(user)
         user.save()
 
