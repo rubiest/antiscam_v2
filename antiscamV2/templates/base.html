@@ -27,22 +27,31 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/about">About</a>
                     </li>
-                    {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/dashboard">My dashboard</a>
-                    </li>
-                    {% endif %}
                 </ul>
             </div>
             <div class="ml-auto">
+                {% if user.is_authenticated %}
+                <div class="dropdown"> <!-- Wrap the dropdown in a div -->
+                    <button class="nav-link dropdown-toggle" type="button" id="userDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        Hi, {{user.username}}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="/dashboard">My dashboard</a></li>
+                        <li><a class="dropdown-item" href="#">My profile</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a href="/signout" class="dropdown-item">Logout</a></li>
+                    </ul>
+                </div>
+                {% else %}
                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                    {% if user.is_authenticated %}
-                    <a href="/signout" class="btn btn-danger">Logout</a>
-                    {% else %}
                     <a href="/register" class="btn btn-primary">Create new account</a>
                     <a href="/signin" class="btn btn-outline-success">Sign in</a>
-                    {% endif %}
                 </div>
+                {% endif %}
             </div>
         </div>
     </nav>
@@ -59,6 +68,8 @@
             {% block content %}{% endblock %}
         </div>
     </div>
+    <script src="{% static 'antiscam/jquery.min.js' %}"></script>
+    <script src="{% static 'antiscam/popper.min.js' %}"></script>
     <script src="{% static 'antiscam/bootstrap.min.js' %}"></script>
 </body>
 
