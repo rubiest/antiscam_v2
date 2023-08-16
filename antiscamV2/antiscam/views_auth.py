@@ -11,6 +11,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from .tokens import generate_token
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import check_password, make_password
 
 def register(request):
     if request.method == "POST":
@@ -115,6 +116,8 @@ def activate(request, uidb64, token):
 @login_required(login_url='/signin/')
 def edit_profile(request):
     user = request.user
+    update_success = False
+    password_updated = False
 
     if request.method == 'POST':
         new_first_name  = request.POST['fname']
@@ -123,6 +126,9 @@ def edit_profile(request):
         new_location = request.POST['location']
         new_username = request.POST['username']
         new_email = request.POST['email']
+        old_password = request.POST['old_password']
+        new_password = request.POST['new_password']
+        confirm_password = request.POST['confirm_password']
 
         if new_username != user.username and CustomUser.objects.filter(username=new_username).exists():
             messages.error(request, "Username already exists!")
@@ -140,7 +146,8 @@ def edit_profile(request):
                (new_phone and new_phone != user.phone) or \
                (new_location and new_location != user.location) or \
                (new_username and new_username != user.username) or \
-               (new_email and new_email != user.email):
+               (new_email and new_email != user.email) or \
+               new_password:
                 # Check if username or email changed
                 if new_username != user.username or new_email != user.email:
                     # Send email notification
@@ -153,8 +160,25 @@ def edit_profile(request):
                 user.location = new_location
                 user.username = new_username
                 user.email = new_email
+
+                if old_password and new_password and confirm_password:
+                    if check_password(old_password, user.password):
+                        if new_password == confirm_password:
+                            user.password = make_password(new_password)
+                            password_updated = True
+                        else:
+                            messages.error(request, "New password and confirmation password do not match.")
+                    else:
+                        messages.error(request, "Old password is incorrect.")
+                        update_success = False
+                else:
+                    update_success = True
+
                 user.save()
-                messages.success(request, "Profile updated successfully.")
+                if update_success:
+                    messages.success(request, "Profile updated successfully.")
+                if password_updated:
+                    messages.success(request, "Password has been successfully updated.")
             else:
                 messages.info(request, "No changes were made to the profile.")
 
