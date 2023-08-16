@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="row">
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body mx-auto">
+                <img src="{% static 'images/placeholder.png' %}" class="img-fluid" style="width:200px" alt="img-profile">
+            </div>
+            <p class="lead text-center">{{ user.first_name|add:" " }}{{ user.last_name }}</p>
+            <ul class="list-group list-group-flush text-center">
+                <li class="list-group-item"><b>Active Profile</b></li>
+                <li class="list-group-item">
+                    <p class="text-center">
+                        Profile ID<br><b>{{ user.profile_number }}</b>
+                    </p>
+                    <p class="text-center">
+                        Created Date<br><b>{{user.date_joined|date:"d-m-Y"}}</b>
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="card">
+            <h3 class="card-header">
+                My Profile <a href="/profile/edit" class="btn btn-md btn-outline-primary float-end">Edit</a>
+            </h3>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Username</li>
+                            <li class="list-group-item">Email Address</li>
+                            <li class="list-group-item">Phone Number</li>
+                            <li class="list-group-item">Location</li>
+                        </ul>
+                    </div>
+                    <div class="col-8">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><b>{{user.username}}</b></li>
+                            <li class="list-group-item"><b>{{user.email}}</b></li>
+                            <li class="list-group-item"><b>{{user.phone}}</b></li>
+                            <li class="list-group-item"><b>{{user.location}}</b></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

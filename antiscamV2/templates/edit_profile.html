@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-4">
+    <div class="card">
+      <h3 class="card-header">
+        Edit my profile
+      </h3>
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="fname" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="fname" name="fname" value="{{ user.first_name }}" required>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="lname" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="lname" name="lname" value="{{ user.last_name }}" required>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="phone" class="form-label">Phone Number</label>
+            <input type="text" class="form-control" id="phone" name="phone" value="{{ user.phone }}" required>
+          </div>
+          <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <select class="form-select" id="location" name="location" aria-label="Default select example" required>
+              <option value="Johor" {% if user.location == "Johor" %}selected{% endif %}>Johor</option>
+              <option value="Kedah" {% if user.location == "Kedah" %}selected{% endif %}>Kedah</option>
+              <option value="Kelantan" {% if user.location == "Kelantan" %}selected{% endif %}>Kelantan</option>
+              <option value="Melaka" {% if user.location == "Melaka" %}selected{% endif %}>Melaka</option>
+              <option value="Negeri Sembilan" {% if user.location == "Negeri Sembilan" %}selected{% endif %}>Negeri Sembilan</option>
+              <option value="Pahang" {% if user.location == "Pahang" %}selected{% endif %}>Pahang</option>
+              <option value="Perak" {% if user.location == "Perak" %}selected{% endif %}>Perak</option>
+              <option value="Perlis" {% if user.location == "Perlis" %}selected{% endif %}>Perlis</option>
+              <option value="Pulau Pinang" {% if user.location == "Pulau Pinang" %}selected{% endif %}>Pulau Pinang</option>
+              <option value="Sabah" {% if user.location == "Sabah" %}selected{% endif %}>Sabah</option>
+              <option value="Sarawak" {% if user.location == "Sarawak" %}selected{% endif %}>Sarawak</option>
+              <option value="Selangor" {% if user.location == "Selangor" %}selected{% endif %}>Selangor</option>
+              <option value="Terengganu" {% if user.location == "Terengganu" %}selected{% endif %}>Terengganu</option>
+              <option value="Wilayah Persekutuan Kuala Lumpur" {% if user.location == "Wilayah Persekutuan Kuala Lumpur" %}selected{% endif %}>Wilayah Persekutuan Kuala Lumpur</option>
+              <option value="Wilayah Persekutuan Labuan" {% if user.location == "Wilayah Persekutuan Labuan" %}selected{% endif %}>Wilayah Persekutuan Labuan</option>
+              <option value="Wilayah Persekutuan Putrajaya" {% if user.location == "Wilayah Persekutuan Putrajaya" %}selected{% endif %}>Wilayah Persekutuan Putrajaya</option>
+            </select>
+          </div>
+          <hr>
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+          </div>
+          
+          <div class="mb-3">
+            <label for="old_password" class="form-label">Old Password</label>
+            <input type="password" class="form-control" id="old_password" name="old_password">
+          </div>
+          <div class="mb-3">
+            <label for="new_password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="new_password" name="new_password">
+          </div>
+          <div class="mb-3">
+            <label for="confirm_password" class="form-label">Confirmation Password</label>
+            <input type="password" class="form-control" id="confirm_password" name="confirm_password">
+          </div>
+          <button type="submit" class="btn btn-primary">Update Profile</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
