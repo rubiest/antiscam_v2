@@ -14,6 +14,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import check_password, make_password
 
 def register(request):
+    if request.user.is_authenticated:  # Check if the user is already logged in
+        return redirect('dashboard')
+    
     if request.method == "POST":
         username = request.POST['username']
         email = request.POST['email']
@@ -68,6 +71,9 @@ def register(request):
     return render(request, "antiscam/register.html")
 
 def signin(request):
+    if request.user.is_authenticated:  # Check if the user is already logged in
+        return redirect('dashboard')
+    
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
