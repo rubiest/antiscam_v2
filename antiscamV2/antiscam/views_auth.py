@@ -151,7 +151,7 @@ def edit_profile(request):
                 # Check if username or email changed
                 if new_username != user.username or new_email != user.email:
                     # Send email notification
-                    send_email_notification(user, new_username, new_email)
+                    send_email_notification(user, new_username, new_email, request)
 
                 # Update user profile
                 user.first_name = new_first_name
@@ -186,13 +186,30 @@ def edit_profile(request):
     
     return render(request, "edit_profile.html")
 
-def send_email_notification(user, new_username, new_email):
+def send_email_notification(user, new_username, new_email, request):
     subject = "Profile Information Update"
     message = f"Dear {user.username},\n\nYour profile information has been updated.\n\n"
     if new_username != user.username:
         message += f"New Username: {new_username}\n"
     if new_email != user.email:
         message += f"New Email: {new_email}\n"
+        user.is_active = False
+        user.token = generate_token.make_token(user)
+        user.save()
+
+        current_site = get_current_site(request)
+        email_subject = "Confirm your updated email @ Antiscam Application"
+        email_message = render_to_string('email_confirmation.html', {
+            'username': new_username,
+            'domain': current_site.domain,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': user.token
+        })
+
+        email = EmailMessage(email_subject, email_message, settings.EMAIL_HOST_USER, [new_email])
+        email.fail_silently = True
+        email.send()
+
     message += "\nThank you for using our platform!"
     from_email = settings.EMAIL_HOST_USER
     to_list = [user.email]
