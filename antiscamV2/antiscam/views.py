@@ -10,9 +10,17 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from . tokens import generate_token
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     return render(request,"index.html")
+
+def about(request):
+    return render(request,"about.html")
+
+@login_required(login_url='/signin/')
+def dashboard(request):
+    return render(request,"dashboard.html")
 
 def register(request):
     if request.method == "POST":
@@ -88,7 +96,7 @@ def signin(request):
         if user is not None:
             login(request,user)
             username = user.username
-            return render(request, "index.html", {'username': username})
+            return redirect('home')
         else:
             messages.error(request, "Bad Credentials")
             return redirect('home')
