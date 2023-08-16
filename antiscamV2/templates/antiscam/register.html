@@ -9,29 +9,77 @@
       </h3>
       <div class="card-body">
         <form action="/register/" method="post">
-            {% csrf_token %}
-            <div class="mb-3">
-              <label for="username" class="form-label">Username</label>
-              <input type="text" class="form-control" id="username" name="username" required>
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="fname" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="fname" name="fname" required>
+              </div>
             </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">Email address</label>
-              <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" required>
-              <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="lname" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="lname" name="lname" required>
+              </div>
             </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" name="password" required>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="text" class="form-control" id="phone" name="phone" required>
+              </div>
             </div>
-            <div class="mb-3">
-              <label for="confirmpassword" class="form-label">Confirmation Password</label>
-              <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" required>
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="location" class="form-label">Location</label>
+                <select class="form-select" id="location" name="location" aria-label="Default select example" required>
+                  <option selected></option>
+                  <option value="Johor">Johor</option>
+                  <option value="Kedah">Kedah</option>
+                  <option value="Kelantan">Kelantan</option>
+                  <option value="Melaka">Melaka</option>
+                  <option value="Negeri Sembilan">Negeri Sembilan</option>
+                  <option value="Pahang">Pahang</option>
+                  <option value="Perak">Perak</option>
+                  <option value="Perlis">Perlis</option>
+                  <option value="Pulau Pinang">Pulau Pinang</option>
+                  <option value="Sabah">Sabah</option>
+                  <option value="Sarawak">Sarawak</option>
+                  <option value="Selangor">Selangor</option>
+                  <option value="Terengganu">Terengganu</option>
+                  <option value="Wilayah Persekutuan Kuala Lumpur">Wilayah Persekutuan Kuala Lumpur</option>
+                  <option value="Wilayah Persekutuan Labuan">Wilayah Persekutuan Labuan</option>
+                  <option value="Wilayah Persekutuan Putrajaya">Wilayah Persekutuan Putrajaya</option>
+                </select>
+                <!-- <input type="text" class="form-control" id="location" name="location" required> -->
+              </div>
             </div>
-            <div class="mb-3 form-check">
-              <input type="checkbox" class="form-check-input" id="agree" name="agree">
-              <label class="form-check-label" for="agree">Check me out</label>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+          <hr>
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" required>
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+          </div>
+          <div class="mb-3">
+            <label for="confirmpassword" class="form-label">Confirmation Password</label>
+            <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" required>
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="agree" name="agree">
+            <label class="form-check-label" for="agree">Check me out</label>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
     </div>

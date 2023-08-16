@@ -2,7 +2,7 @@ from django.urls import path
 
 from . import views
 from .views_auth import register, signin, signout, activate
-from .views_dashboard import dashboard
+from .views_dashboard import dashboard, profile
 
 # app_name = "antiscam"
 urlpatterns = [
@@ -15,4 +15,5 @@ urlpatterns = [
     path('activate/<uidb64>/<token>', activate, name='activate'),
     #dashboard
     path('dashboard/', dashboard, name='dashboard'),
+    path('profile/', profile, name='profile'),
 ]

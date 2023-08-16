@@ -13,6 +13,10 @@ from .tokens import generate_token
 
 def register(request):
     if request.method == "POST":
+        fname = request.POST['fname']
+        lname = request.POST['lname']
+        phone = request.POST['phone']
+        location = request.POST['location']
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
@@ -36,9 +40,14 @@ def register(request):
         if not username.isalnum():
             messages.error(request, "Username must be Alphanumeric!")
 
+        if not phone.isdigit():
+            messages.error(request, "Phone Number must be a number!")
+
         myuser = CustomUser.objects.create_user(username,email,password)
-        # myuser.first_name = fname
-        # myuser.last_name = lname
+        myuser.first_name = fname
+        myuser.last_name = lname
+        myuser.phone = phone
+        myuser.location = location
         myuser.is_active = False
         myuser.token = generate_token.make_token(myuser)
         myuser.save()

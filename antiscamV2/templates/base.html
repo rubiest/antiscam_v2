@@ -34,11 +34,11 @@
                 <div class="dropdown"> <!-- Wrap the dropdown in a div -->
                     <button class="nav-link dropdown-toggle" type="button" id="userDropdown"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                        Hi, {{user.username}}
+                        Hi, {{ user.first_name|add:" " }}{{ user.last_name }}
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="/dashboard">My dashboard</a></li>
-                        <li><a class="dropdown-item" href="#">My profile</a></li>
+                        <li><a class="dropdown-item" href="/profile">My profile</a></li>
                         <li><a class="dropdown-item" href="#">Another action</a></li>
                         <li>
                             <hr class="dropdown-divider">
