@@ -35,17 +35,17 @@
     </div>
     <div class="col-8">
         <div class="card">
-            <h3 class="card-header">
+            <h5 class="card-header">
                 Scammer Profile
                 <div class="btn-group float-end" role="group" aria-label="Basic example">
                     {% if request.user in scammer.voters.all %}
-                    <a href="{% url 'vote-unvote-scammer' scammer_id=scammer.id %}" class="btn btn-secondary">Unvote</a>
+                    <a href="{% url 'vote-unvote-scammer' scammer_id=scammer.id %}" class="btn btn-sm btn-secondary">Unvote</a>
                     {% else %}
-                    <a href="{% url 'vote-unvote-scammer' scammer_id=scammer.id %}" class="btn btn-primary">Vote</a>
+                    <a href="{% url 'vote-unvote-scammer' scammer_id=scammer.id %}" class="btn btn-sm btn-primary">Vote</a>
                     {% endif %}
-                    <a href="{% url 'scammerlist' %}" class="btn btn-md btn-outline-primary">Back</a>
+                    <a href="{% url 'scammerlist' %}" class="btn btn-sm btn-outline-primary">Back</a>
                 </div>
-            </h3>
+            </h5>
             <div class="card-body">
                 <div class="row">
                     <div class="col-12">
