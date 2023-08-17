@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from .models import Scammer, Location, Category
 from django.contrib import messages
+from .forms import SearchCreateScammerForm
 
 @login_required(login_url='/signin/')
 def dashboard(request):
@@ -18,6 +19,9 @@ def newscammer(request):
     categories = Category.objects.all()  # Fetch locations from the database
     context = {'locations': locations, 'categories': categories}
     
+    # Check if the pre-filled phone number is stored in the session
+    pre_filled_phone = request.session.get('pre_filled_phone', '')
+    
     if request.method == "POST":
         name = request.POST['name']
         brief = request.POST['brief']
@@ -32,7 +36,9 @@ def newscammer(request):
 
         # Get the currently logged-in user
         reported_by = request.user
-        if not phone.isdigit():
+        if Scammer.objects.filter(phone=phone).exists():
+            messages.error(request, "Phone number already exists!")
+        elif not phone.isdigit():
             messages.error(request, "Phone Number must be a number!")
         else:
             scammer = Scammer.objects.create(
@@ -51,4 +57,26 @@ def newscammer(request):
         # Redirect to a success page or another view
         return redirect('/scammer-lists/')
 
+    context['pre_filled_phone'] = pre_filled_phone
     return render(request,"scammers/new.html", context)
+
+@login_required(login_url='/signin/')
+def search_create_scammer(request):
+    if request.method == 'POST':
+        form = SearchCreateScammerForm(request.POST)
+        if form.is_valid():
+            phone = form.cleaned_data['phone_number']
+            # Check if a scammer with the provided phone number exists
+            existing_scammer = Scammer.objects.filter(phone=phone).first()
+            if existing_scammer:
+                # Scammer with the given phone number already exists
+                # return redirect('scammer-lists', scammer_id=existing_scammer.id)
+                return redirect('/scammer-lists/')
+            else:
+                # Store the pre-filled phone number in the session
+                request.session['pre_filled_phone'] = phone
+                return redirect('/scammers/new')
+    else:
+        form = SearchCreateScammerForm()
+
+    return render(request, 'search_create_scammer.html', {'form': form})
