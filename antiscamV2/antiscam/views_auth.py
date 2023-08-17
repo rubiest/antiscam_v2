@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 # from django.contrib.auth.models import User
-from .models import CustomUser
+from .models import CustomUser, Location
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from antiscamV2 import settings
@@ -12,8 +12,12 @@ from django.utils.encoding import force_bytes, force_str
 from .tokens import generate_token
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import check_password, make_password
+from django.shortcuts import get_object_or_404
 
 def register(request):
+    locations = Location.objects.all()  # Fetch locations from the database
+    context = {'locations': locations}
+
     if request.user.is_authenticated:  # Check if the user is already logged in
         return redirect('dashboard')
     
@@ -23,7 +27,6 @@ def register(request):
         password = request.POST['password']
         confirmpassword = request.POST['confirmpassword']
         phone = request.POST['phone']
-        location = request.POST['location']
 
         if CustomUser.objects.filter(username=username).exists():
             messages.error(request, "Username already exists!")
@@ -42,6 +45,8 @@ def register(request):
             myuser.first_name = request.POST['fname']
             myuser.last_name = request.POST['lname']
             myuser.phone = phone
+            location_id = request.POST['location']
+            location = Location.objects.get(id=location_id)
             myuser.location = location
             myuser.is_active = False
             myuser.token = generate_token.make_token(myuser)
@@ -68,7 +73,7 @@ def register(request):
         messages.success(request, "Your account has been successfully created. We have sent you a confirmation email! Please check your email.")
         return redirect('signin')
 
-    return render(request, "antiscam/register.html")
+    return render(request, "antiscam/register.html", context)
 
 def signin(request):
     if request.user.is_authenticated:  # Check if the user is already logged in
@@ -125,12 +130,19 @@ def edit_profile(request):
     user = request.user
     update_success = False
     password_updated = False
+    locations = Location.objects.all()
+
+    context = {
+        'user': user,
+        'locations': locations,
+        # ... other context variables
+    }
 
     if request.method == 'POST':
         new_first_name  = request.POST['fname']
         new_last_name = request.POST['lname']
         new_phone = request.POST['phone']
-        new_location = request.POST['location']
+        new_location_id = request.POST['location']
         new_username = request.POST['username']
         new_email = request.POST['email']
         old_password = request.POST['old_password']
@@ -151,7 +163,7 @@ def edit_profile(request):
             if (new_first_name and new_first_name != user.first_name) or \
                (new_last_name and new_last_name != user.last_name) or \
                (new_phone and new_phone != user.phone) or \
-               (new_location and new_location != user.location) or \
+               (new_location_id and int(new_location_id)  != user.location.id) or \
                (new_username and new_username != user.username) or \
                (new_email and new_email != user.email) or \
                new_password:
@@ -164,9 +176,13 @@ def edit_profile(request):
                 user.first_name = new_first_name
                 user.last_name = new_last_name
                 user.phone = new_phone
-                user.location = new_location
                 user.username = new_username
                 user.email = new_email
+
+                # Update user location if it has changed
+                if new_location_id and int(new_location_id) != user.location.id:
+                    new_location = get_object_or_404(Location, id=int(new_location_id))
+                    user.location = new_location
 
                 if old_password and new_password and confirm_password:
                     if check_password(old_password, user.password):
@@ -191,7 +207,7 @@ def edit_profile(request):
 
         return redirect('profile')
     
-    return render(request, "edit_profile.html")
+    return render(request, "edit_profile.html", context)
 
 def send_email_notification(user, new_username, new_email, request):
     subject = "Profile Information Update"
