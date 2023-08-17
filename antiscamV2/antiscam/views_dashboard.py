@@ -11,7 +11,14 @@ def dashboard(request):
 
 @login_required(login_url='/signin/')
 def profile(request):
-    return render(request,"profile.html")
+    user = request.user
+    reported_scammers = Scammer.objects.filter(reported_by=user)
+    voted_scammer_ids = user.voted_scammers.values_list('id', flat=True)
+    voted_scammers = Scammer.objects.filter(id__in=voted_scammer_ids)
+
+    context = {'reported_scammers': reported_scammers, 'voted_scammers': voted_scammers}
+
+    return render(request,"profile.html", context)
 
 @login_required(login_url='/signin/')
 def newscammer(request):
