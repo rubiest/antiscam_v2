@@ -55,7 +55,7 @@ def newscammer(request):
             scammer.save()
         
         # Redirect to a success page or another view
-        return redirect('/scammer-lists/')
+        return redirect('scammerlist')
 
     context['pre_filled_phone'] = pre_filled_phone
     return render(request,"scammers/new.html", context)
@@ -70,12 +70,11 @@ def search_create_scammer(request):
             existing_scammer = Scammer.objects.filter(phone=phone).first()
             if existing_scammer:
                 # Scammer with the given phone number already exists
-                # return redirect('scammer-lists', scammer_id=existing_scammer.id)
-                return redirect('/scammer-lists/')
+                return redirect('viewscammer', scammer_id=existing_scammer.id)
             else:
                 # Store the pre-filled phone number in the session
                 request.session['pre_filled_phone'] = phone
-                return redirect('/scammers/new')
+                return redirect('newscammer')
     else:
         form = SearchCreateScammerForm()
 
