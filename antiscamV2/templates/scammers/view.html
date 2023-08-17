@@ -2,20 +2,64 @@
 {% load static %}
 
 {% block content %}
-    <h1>Scammer Details</h1>
-    <h2>{{ scammer.name }}</h2>
-    
-    <p>Reported by: {{ scammer.reported_by }}</p>
-    <p>Location: {{ scammer.location }}</p>
-    <p>Category: {{ scammer.category }}</p>
-    <p>Brief Introduction: {{ scammer.brief_intro }}</p>
-    <p>Modus Operandi: {{ scammer.modus_operandi }}</p>
-    <p>Date Reported: {{ scammer.date_reported }}</p>
-    <p>Last Date Reported: {{ scammer.last_date_reported }}</p>
-    
-    {% if scammer.is_verified %}
-        <p><img src="{% static 'images/verify.png' %}" class="img-fluid" alt="img-verified"></p>
-    {% endif %}
-    
-    <a href="{% url 'scammerlist' %}">Back to Scammer List</a>
+<div class="row">
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body mx-auto">
+                <img src="{% static 'images/placeholder.png' %}" class="img-fluid" style="width:200px"
+                    alt="img-profile">
+            </div>
+            <p class="lead text-center">{{ scammer.name }}</p>
+            <ul class="list-group list-group-flush text-center">
+                <li class="list-group-item"><b>Scammer Profile</b></li>
+                <li class="list-group-item">
+                    <p class="text-center">
+                        Phone Number<br><b>{{ scammer.phone }}</b>
+                    </p>
+                    <p class="text-center">
+                        Category<br><b>{{ scammer.category }}</b>
+                    </p>
+                    <p class="text-center">
+                        Location<br><b>{{ scammer.location }}</b>
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="card">
+            <h3 class="card-header">
+                Scammer Profile <a href="{% url 'scammerlist' %}"
+                    class="btn btn-md btn-outline-primary float-end">Back</a>
+            </h3>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- <ul class="list-group list-group-flush"> -->
+                            <!-- <li class="list-group-item"> -->
+                                <p><b>Brief Introduction</b><br>{{ scammer.brief_intro }}</p>
+                            <!-- </li> -->
+                            <!-- <li class="list-group-item"> -->
+                                <p><b>Modus Operandi</b><br>{{ scammer.modus_operandi }}</p>
+                            <!-- </li> -->
+                            <div class="row">
+                                <div class="col-4">
+                                    <p><b>Reported by</b><br>{{scammer.reported_by}}{% if user.is_verified %}<img
+                                            src="{% static 'images/verify.png' %}" class="img-fluid"
+                                            alt="img-verified">{% endif %}</p>
+                                </div>
+                                <div class="col-4">
+                                    <p><b>Date Reported</b><br>{{scammer.date_reported|date:"d-m-Y"}}</p>
+                                </div>
+                                <div class="col-4">
+                                    <p><b>Last Date Reported</b><br>{{scammer.last_date_reported|date:"d-m-Y"}}</p>
+                                </div>
+                            </div>
+                        <!-- </ul> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
