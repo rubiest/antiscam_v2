@@ -53,7 +53,7 @@
                         <p><b>Modus Operandi</b><br>{{ scammer.modus_operandi }}</p>
                         <div class="row">
                             <div class="col-4">
-                                <p><b>Reported by</b><br>{{scammer.reported_by}}{% if user.is_verified %}<i class="bi bi-patch-check-fill" style="font-size: 1rem; color: rgb(3, 90, 252);"></i>{% endif %}</p>
+                                <p><b>Reported by</b><br>{{ scammer.reported_by.first_name|add:" " }}{{ scammer.reported_by.last_name }} {% if scammer.reported_by.is_verified %}<i class="bi bi-patch-check-fill" style="font-size: 1rem; color: rgb(3, 90, 252);"></i>{% endif %}</p>
                             </div>
                             <div class="col-4">
                                 <p><b>Date Reported</b><br>{{scammer.date_reported|date:"d-m-Y"}}</p>
@@ -94,7 +94,7 @@
                             {% for comment in comments %}
                             <li class="list-group-item d-flex justify-content-between align-items-start">
                                 <div class="ms-2 me-auto">
-                                <div class="fw-bold">{{ comment.user.username }}{% if comment.user.is_verified %}<i class="bi bi-patch-check-fill" style="font-size: 1rem; color: rgb(3, 90, 252);"></i>{% endif %}</div>
+                                <div class="fw-bold">{{ comment.user.first_name|add:" " }}{{ comment.user.last_name }} {% if comment.user.is_verified %}<i class="bi bi-patch-check-fill" style="font-size: 1rem; color: rgb(3, 90, 252);"></i>{% endif %}</div>
                                 {{ comment.comment }}
                                 </div>
                                 <span class="badge bg-primary rounded-pill">

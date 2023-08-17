@@ -30,7 +30,7 @@
                             <td>{{ scammer.name}}</td>
                             <td>{{ scammer.category.name}}</td>
                             <td>{{ scammer.location.name}}</td>
-                            <td>{{ scammer.reported_by.first_name|add:" " }}{{ scammer.reported_by.last_name }}{% if scammer.reported_by.is_verified %}<i class="bi bi-patch-check-fill" style="font-size: 1rem; color: rgb(3, 90, 252);"></i>{% endif %}</td>
+                            <td>{{ scammer.reported_by.first_name|add:" " }}{{ scammer.reported_by.last_name }} {% if scammer.reported_by.is_verified %}<i class="bi bi-patch-check-fill" style="font-size: 1rem; color: rgb(3, 90, 252);"></i>{% endif %}</td>
                             <td>{{ scammer.date_reported|date:"d-m-Y"}}</td>
                             <td><a href="/scammer-details/{{scammer.id}}" class="btn btn-link btn-sm">view cases</a></td>
                         </tr>
