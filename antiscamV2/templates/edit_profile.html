@@ -9,8 +9,12 @@
         Edit my profile
       </h3>
       <div class="card-body">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
           {% csrf_token %}
+          <div class="mb-3">
+            <label for="profile_picture" class="form-label">Profile Picture</label>
+            <input type="file" class="form-control" id="profile_picture" name="profile_picture">
+          </div>
           <div class="row">
             <div class="col-6">
               <div class="mb-3">

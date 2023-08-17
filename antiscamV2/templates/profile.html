@@ -6,8 +6,11 @@
     <div class="col-4">
         <div class="card">
             <div class="card-body mx-auto">
-                <img src="{% static 'images/placeholder.png' %}" class="img-fluid" style="width:200px"
-                    alt="img-profile">
+                {% if user.profile_picture %}
+                    <img src="{{ user.profile_picture.url }}" class="rounded-circle" style="width:200px" alt="Profile Picture">
+                {% else %}
+                    <img src="{% static 'images/placeholder.png' %}" class="rounded-circle" style="width:200px" alt="Profile Picture">
+                {% endif %}
             </div>
             <p class="lead text-center">{{ user.first_name|add:" " }}{{ user.last_name }}{% if user.is_verified %}<i
                     class="bi bi-patch-check-fill" style="font-size: 1rem; color: rgb(3, 90, 252);"></i>{% endif %}</p>

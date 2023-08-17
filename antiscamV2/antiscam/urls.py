@@ -1,4 +1,6 @@
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
 from . import views
 from .views_auth import register, signin, signout, activate, edit_profile
@@ -22,4 +24,4 @@ urlpatterns = [
     path('profile/', profile, name='profile'),
     path('scammers/new', newscammer, name='newscammer'),
     path('search_create_scammer/', search_create_scammer, name='search_create_scammer'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

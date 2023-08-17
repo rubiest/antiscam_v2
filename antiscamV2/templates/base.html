@@ -47,7 +47,11 @@
                 <div class="dropdown"> <!-- Wrap the dropdown in a div -->
                     <button class="nav-link dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        Hi, {{ user.first_name|add:" " }}{{ user.last_name }}
+                        Hi, {% if user.profile_picture %}
+                        <img src="{{ user.profile_picture.url }}" class="rounded-circle" style="width:30px; margin-top:-4px;" alt="img-profile" title="{{ user.username }}">
+                    {% else %}
+                        <img src="{% static 'images/placeholder.png' %}" class="rounded-circle" style="width:30px; margin-top:-4px;" alt="img-profile" title="{{ user.username }}">
+                    {% endif %}{{ user.first_name|add:" " }}{{ user.last_name }}
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="{% url 'dashboard' %}"><i class="bi bi-building"></i> My dashboard</a></li>

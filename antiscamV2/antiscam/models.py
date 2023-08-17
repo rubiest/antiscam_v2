@@ -23,6 +23,7 @@ class CustomUser(AbstractUser):
     profile_number = models.CharField(max_length=7, default='')
     old_email = models.CharField(max_length=255, blank=True, null=True, default='')
     is_verified = models.BooleanField(default=False)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
 
     def generate_profile_number(self):
         return ''.join([str(random.randint(0, 9)) for _ in range(7)])

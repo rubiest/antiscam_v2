@@ -13,6 +13,7 @@ from .tokens import generate_token
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import check_password, make_password
 from django.shortcuts import get_object_or_404
+from django.core.files.storage import FileSystemStorage
 
 def register(request):
     locations = Location.objects.all()  # Fetch locations from the database
@@ -135,10 +136,12 @@ def edit_profile(request):
     context = {
         'user': user,
         'locations': locations,
-        # ... other context variables
     }
 
     if request.method == 'POST':
+        # Handle file upload
+        profile_picture = request.FILES.get('profile_picture', None)
+        
         new_first_name  = request.POST['fname']
         new_last_name = request.POST['lname']
         new_phone = request.POST['phone']
@@ -203,7 +206,15 @@ def edit_profile(request):
                 if password_updated:
                     messages.success(request, "Password has been successfully updated.")
             else:
-                messages.info(request, "No changes were made to the profile.")
+                if profile_picture:  # Save profile picture if provided
+                    fs = FileSystemStorage()
+                    profile_picture_name = fs.save(profile_picture.name, profile_picture)
+                    user.profile_picture = profile_picture_name
+                    user.save()
+                    context['profile_picture'] = user.profile_picture
+                    messages.success(request, "Profile picture has been updated")
+                else:
+                    messages.info(request, "No changes were made to the profile.")
 
         return redirect('profile')
     
