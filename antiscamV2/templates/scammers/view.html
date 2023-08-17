@@ -49,9 +49,7 @@
                         <p><b>Modus Operandi</b><br>{{ scammer.modus_operandi }}</p>
                         <div class="row">
                             <div class="col-4">
-                                <p><b>Reported by</b><br>{{scammer.reported_by}}{% if user.is_verified %}<img
-                                        src="{% static 'images/verify.png' %}" class="img-fluid"
-                                        alt="img-verified">{% endif %}</p>
+                                <p><b>Reported by</b><br>{{scammer.reported_by}}{% if user.is_verified %}<i class="bi bi-patch-check-fill" style="font-size: 1rem; color: rgb(3, 90, 252);"></i>{% endif %}</p>
                             </div>
                             <div class="col-4">
                                 <p><b>Date Reported</b><br>{{scammer.date_reported|date:"d-m-Y"}}</p>
@@ -68,7 +66,7 @@
                             {% csrf_token %}
                             <div class="mb-3">
                                 {{ comment_form.as_p }}
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary"><i class="bi bi-send-fill"></i> Submit</button>
                             </div>
                         </form>
                     </div>
@@ -92,7 +90,7 @@
                             {% for comment in comments %}
                             <li class="list-group-item d-flex justify-content-between align-items-start">
                                 <div class="ms-2 me-auto">
-                                <div class="fw-bold">{{ comment.user.username }}</div>
+                                <div class="fw-bold">{{ comment.user.username }}{% if comment.user.is_verified %}<i class="bi bi-patch-check-fill" style="font-size: 1rem; color: rgb(3, 90, 252);"></i>{% endif %}</div>
                                 {{ comment.comment }}
                                 </div>
                                 <span class="badge bg-primary rounded-pill">

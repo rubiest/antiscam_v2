@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Antiscam: Be careful</title>
     <link rel="stylesheet" href="{% static 'antiscam/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'antiscam/bootstrap-icons.min.css' %}">
     <link rel="stylesheet" href="{% static 'antiscam/style.css' %}">
 </head>
 
@@ -35,7 +36,9 @@
             {% if user.is_authenticated %}
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="btn btn-sm btn-outline-danger me-3" aria-current="page" href="{% url 'search_create_scammer' %}">Submit new case</a>
+                    <a class="btn btn-sm btn-outline-danger me-3" aria-current="page" href="{% url 'search_create_scammer' %}">
+                        <i class="bi bi-person-plus-fill"></i> Submit new case
+                    </a>
                 </li>
             </ul>
             {% endif %}
@@ -47,13 +50,13 @@
                         Hi, {{ user.first_name|add:" " }}{{ user.last_name }}
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="{% url 'dashboard' %}">My dashboard</a></li>
-                        <li><a class="dropdown-item" href="{% url 'profile' %}">My profile</a></li>
+                        <li><a class="dropdown-item" href="{% url 'dashboard' %}"><i class="bi bi-building"></i> My dashboard</a></li>
+                        <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="bi bi-person-lines-fill"></i> My profile</a></li>
                         <li><a class="dropdown-item" href="#">Another action</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a href="{% url 'signout' %}" class="dropdown-item">Logout</a></li>
+                        <li><a href="{% url 'signout' %}" class="dropdown-item">Logout <i class="bi bi-box-arrow-right"></i></a></li>
                     </ul>
                 </div>
                 {% else %}

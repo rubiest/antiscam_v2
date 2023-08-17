@@ -8,7 +8,7 @@
             <div class="card-body mx-auto">
                 <img src="{% static 'images/placeholder.png' %}" class="img-fluid" style="width:200px" alt="img-profile">
             </div>
-            <p class="lead text-center">{{ user.first_name|add:" " }}{{ user.last_name }}{% if user.is_verified %}<img src="{% static 'images/verify.png' %}" class="img-fluid" alt="img-verified">{% endif %}</p>
+            <p class="lead text-center">{{ user.first_name|add:" " }}{{ user.last_name }}{% if user.is_verified %}<i class="bi bi-patch-check-fill" style="font-size: 1rem; color: rgb(3, 90, 252);"></i>{% endif %}</p>
             <ul class="list-group list-group-flush text-center">
                 <li class="list-group-item"><b>Active Profile</b></li>
                 <li class="list-group-item">
@@ -25,7 +25,7 @@
     <div class="col-8">
         <div class="card">
             <h3 class="card-header">
-                My Profile <a href="{% url 'edit_profile' %}" class="btn btn-md btn-outline-primary float-end">Edit</a>
+                My Profile <a href="{% url 'edit_profile' %}" class="btn btn-md btn-outline-primary float-end"><i class="bi bi-pencil-square"></i> Edit</a>
             </h3>
             <div class="card-body">
                 <div class="row">
