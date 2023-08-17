@@ -17,6 +17,26 @@
                         <input type="text" class="form-control" id="name" name="name" required>
                     </div>
                     <div class="mb-3">
+                        <label for="location" class="form-label">Location</label>
+                        <select class="form-select" id="location" name="location" aria-label="Default select example"
+                            required>
+                            <option selected></option>
+                            {% for location in locations %}
+                            <option value="{{ location.id }}">{{ location.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Category</label>
+                        <select class="form-select" id="category" name="category" aria-label="Default select example"
+                            required>
+                            <option selected></option>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label for="brief" class="form-label">Brief introduction</label>
                         <textarea rows="3" type="text" class="form-control" id="brief" name="brief" required></textarea>
                     </div>
