@@ -8,6 +8,7 @@ from .views_dashboard import dashboard, profile, newscammer
 urlpatterns = [
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
+    path('scammer-lists/', views.scammerlist, name='scammerlist'),
     #authentication
     path('register/', register, name='register'),
     path('signin/', signin, name='signin'),

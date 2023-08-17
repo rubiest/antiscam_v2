@@ -8,7 +8,7 @@
             <div class="card-body mx-auto">
                 <img src="{% static 'images/placeholder.png' %}" class="img-fluid" style="width:200px" alt="img-profile">
             </div>
-            <p class="lead text-center">{{ user.first_name|add:" " }}{{ user.last_name }}</p>
+            <p class="lead text-center">{{ user.first_name|add:" " }}{{ user.last_name }}{% if user.is_verified %}<img src="{% static 'images/verify.png' %}" class="img-fluid" alt="img-verified">{% endif %}</p>
             <ul class="list-group list-group-flush text-center">
                 <li class="list-group-item"><b>Active Profile</b></li>
                 <li class="list-group-item">

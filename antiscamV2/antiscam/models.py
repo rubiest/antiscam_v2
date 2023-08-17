@@ -21,6 +21,7 @@ class CustomUser(AbstractUser):
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
     profile_number = models.CharField(max_length=7, default='')
     old_email = models.CharField(max_length=255, blank=True, null=True, default='')
+    is_verified = models.BooleanField(default=False)
 
     def generate_profile_number(self):
         return ''.join([str(random.randint(0, 9)) for _ in range(7)])
@@ -37,6 +38,7 @@ class Scammer(models.Model):
     name = models.CharField(max_length=255, default='')
     brief_intro = models.CharField(max_length=255)
     modus_operandi = models.TextField(default='')
+    phone = models.CharField(max_length=13, default='')
     is_verified = models.BooleanField(default=False)
     date_reported = models.DateField()
     last_date_reported = models.DateField(null=True, blank=True)

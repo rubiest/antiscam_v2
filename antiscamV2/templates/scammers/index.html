@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="card">
+    <h3 class="card-header">
+        Scammer Lists
+    </h3>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Intro</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Reported By</th>
+                    <th scope="col">Date Reported</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for scammer in scammers %}
+                <tr>
+                    <td>{{ scammer.name}}</td>
+                    <td>{{ scammer.brief_intro}}</td>
+                    <td>{{ scammer.category.name}}</td>
+                    <td>{{ scammer.location.name}}</td>
+                    <td>{{ scammer.reported_by.first_name|add:" " }}{{ scammer.reported_by.last_name }}{% if scammer.reported_by.is_verified %}<img src="{% static 'images/verify.png' %}" class="img-fluid" alt="img-verified">{% endif %}</td>
+                    <td>{{ scammer.date_reported|date:"d-m-Y"}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

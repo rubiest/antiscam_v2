@@ -12,29 +12,45 @@
             <div class="card-body">
                 <form action="/scammers/new" method="post">
                     {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Scammer Name</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Scammer Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" id="phone" name="phone" required>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="location" class="form-label">Location</label>
-                        <select class="form-select" id="location" name="location" aria-label="Default select example"
-                            required>
-                            <option selected></option>
-                            {% for location in locations %}
-                            <option value="{{ location.id }}">{{ location.name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="category" class="form-label">Category</label>
-                        <select class="form-select" id="category" name="category" aria-label="Default select example"
-                            required>
-                            <option selected></option>
-                            {% for category in categories %}
-                            <option value="{{ category.id }}">{{ category.name }}</option>
-                            {% endfor %}
-                        </select>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="location" class="form-label">Location</label>
+                                <select class="form-select" id="location" name="location" aria-label="Default select example"
+                                    required>
+                                    <option selected></option>
+                                    {% for location in locations %}
+                                    <option value="{{ location.id }}">{{ location.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="category" class="form-label">Category</label>
+                                <select class="form-select" id="category" name="category" aria-label="Default select example"
+                                    required>
+                                    <option selected></option>
+                                    {% for category in categories %}
+                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="brief" class="form-label">Brief introduction</label>
