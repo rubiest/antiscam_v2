@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Scammer
 
 def home(request):
@@ -12,3 +12,7 @@ def scammerlist(request):
     context = {'scammers': scammers}
 
     return render(request,"scammers/index.html", context)
+
+def viewscammer(request, scammer_id):
+    scammer = get_object_or_404(Scammer, id=scammer_id)
+    return render(request, "scammers/view.html", {'scammer': scammer})

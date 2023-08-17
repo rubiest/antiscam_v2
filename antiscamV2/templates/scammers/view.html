@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <h1>Scammer Details</h1>
+    <h2>{{ scammer.name }}</h2>
+    
+    <p>Reported by: {{ scammer.reported_by }}</p>
+    <p>Location: {{ scammer.location }}</p>
+    <p>Category: {{ scammer.category }}</p>
+    <p>Brief Introduction: {{ scammer.brief_intro }}</p>
+    <p>Modus Operandi: {{ scammer.modus_operandi }}</p>
+    <p>Date Reported: {{ scammer.date_reported }}</p>
+    <p>Last Date Reported: {{ scammer.last_date_reported }}</p>
+    
+    {% if scammer.is_verified %}
+        <p><img src="{% static 'images/verify.png' %}" class="img-fluid" alt="img-verified"></p>
+    {% endif %}
+    
+    <a href="{% url 'scammerlist' %}">Back to Scammer List</a>
+{% endblock %}

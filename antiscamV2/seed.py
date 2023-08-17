@@ -20,9 +20,9 @@ location_names = [
     "Sarawak",
     "Selangor",
     "Terengganu",
-    "Wilayah Persekutuan Kuala Lumpur",
-    "Wilayah Persekutuan Labuan",
-    "Wilayah Persekutuan Putrajaya",
+    "WP Kuala Lumpur",
+    "WP Labuan",
+    "WP Putrajaya",
 ]
 
 category_names = [

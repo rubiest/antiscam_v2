@@ -9,6 +9,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
     path('scammer-lists/', views.scammerlist, name='scammerlist'),
+    path('scammer-details/<int:scammer_id>', views.viewscammer, name='viewscammer'),
     #authentication
     path('register/', register, name='register'),
     path('signin/', signin, name='signin'),
