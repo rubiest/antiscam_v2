@@ -27,12 +27,6 @@ class Scammer(models.Model):
     is_verified = models.BooleanField(default=False)
     date_reported = models.DateField(default='')
     last_date_reported = models.DateField(default='', null=True, blank=True)
-    
-    # def save(self, *args, **kwargs):
-    #     if isinstance(self.date_reported, str):
-    #         # Convert the input format 'd-m-Y' to 'Y-m-d'
-    #         self.date_reported = datetime.strptime(self.date_reported, '%Y-%m-%d').date()
-    #     super(Scammer, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
