@@ -29,11 +29,18 @@
                     </li>
                 </ul>
             </div>
+            {% if user.is_authenticated %}
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="btn btn-sm btn-outline-danger me-3" aria-current="page" href="/scammers/new">Submit new case</a>
+                </li>
+            </ul>
+            {% endif %}
             <div class="ml-auto">
                 {% if user.is_authenticated %}
                 <div class="dropdown"> <!-- Wrap the dropdown in a div -->
-                    <button class="nav-link dropdown-toggle" type="button" id="userDropdown"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="nav-link dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown"
+                        aria-expanded="false">
                         Hi, {{ user.first_name|add:" " }}{{ user.last_name }}
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">

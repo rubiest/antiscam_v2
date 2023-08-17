@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from datetime import datetime
 import random
 
 class CustomUser(AbstractUser):
@@ -17,3 +18,21 @@ class CustomUser(AbstractUser):
         if not self.profile_number:
             self.profile_number = self.generate_profile_number()
         super().save(*args, **kwargs)
+
+class Scammer(models.Model):
+    reported_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255, default='')
+    brief_intro = models.CharField(max_length=255)
+    modus_operandi = models.TextField(default='')
+    is_verified = models.BooleanField(default=False)
+    date_reported = models.DateField(default='')
+    last_date_reported = models.DateField(default='', null=True, blank=True)
+    
+    # def save(self, *args, **kwargs):
+    #     if isinstance(self.date_reported, str):
+    #         # Convert the input format 'd-m-Y' to 'Y-m-d'
+    #         self.date_reported = datetime.strptime(self.date_reported, '%Y-%m-%d').date()
+    #     super(Scammer, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name

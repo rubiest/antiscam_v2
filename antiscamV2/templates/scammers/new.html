@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="row">
+    <div class="col-4"></div>
+    <div class="col-8">
+        <div class="card">
+            <div class="card-header">
+                Submit new scammer details
+            </div>
+            <div class="card-body">
+                <form action="/scammers/new" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Scammer Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="brief" class="form-label">Brief introduction</label>
+                        <textarea rows="3" type="text" class="form-control" id="brief" name="brief" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modus" class="form-label">Modus Operandi</label>
+                        <textarea rows="3" type="text" class="form-control" id="modus" name="modus" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="date_reported" class="form-label">Date Reported</label>
+                        <input type="date" id="date_reported" name="date_reported" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
