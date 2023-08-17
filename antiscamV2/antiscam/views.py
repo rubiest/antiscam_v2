@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Scammer, Comment
+from .models import Scammer, Comment, Category, Location
+from django.db.models import Q
 from .forms import CommentForm
 
 def home(request):
@@ -11,8 +12,32 @@ def about(request):
     return render(request,"about.html")
 
 def scammerlist(request):
-    scammers = Scammer.objects.all()  # Fetch locations from the database
-    context = {'scammers': scammers}
+    category_id = request.GET.get('category')
+    location_id = request.GET.get('location')
+    search_query = request.GET.get('search')
+
+    scammers = Scammer.objects.all()
+
+    if category_id:
+        scammers = scammers.filter(category_id=category_id)
+
+    if location_id:
+        scammers = scammers.filter(location_id=location_id)
+
+    if search_query:
+        scammers = scammers.filter(Q(name__icontains=search_query) | Q(phone__icontains=search_query))
+
+    categories = Category.objects.all()
+    locations = Location.objects.all()
+
+    context = {
+        'scammers': scammers,
+        'categories': categories,
+        'locations': locations,
+        'selected_category_id': int(category_id) if category_id else None,
+        'selected_location_id': int(location_id) if location_id else None,
+        'search_query': search_query,
+    }
 
     return render(request,"scammers/index.html", context)
 

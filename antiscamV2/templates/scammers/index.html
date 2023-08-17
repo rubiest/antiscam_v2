@@ -1,11 +1,47 @@
 {% extends "base.html" %}
+{% load custom_filters %}
 {% load static %}
 
 {% block content %}
 
 <div class="row">
     <div class="col-4">
-
+        <form method="get">
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control" name="search" value="" placeholder="Search by name or phone number">
+                <button type="submit" class="btn btn-primary">Search</button>
+                <a href="{% url 'scammerlist' %}" class="btn btn-outline-secondary">Reset</a>
+            </div>
+        </form>
+        <hr>
+        <form method="get">
+            <div class="mb-3">
+                <label for="category" class="form-label">Filter by category:</label>
+                <select class="form-select" id="category" name="category">
+                    <option value="" selected>All Categories</option>
+                    {% for category in categories %}
+                    <option value="{{ category.id }}"
+                        {% if category.id == selected_category_id %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="category" class="form-label">Filter by location:</label>
+                <select class="form-select" id="location" name="location">
+                    <option value="" selected>All Locations</option>
+                    {% for location in locations %}
+                        <option value="{{ location.id }}"
+                            {% if location.id == selected_location_id %}selected{% endif %}>
+                            {{ location.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Apply filter</button>
+        </form>
     </div>
     <div class="col-8">
         <div class="card">
