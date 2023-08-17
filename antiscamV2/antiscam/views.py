@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .models import Scammer, Comment
 from .forms import CommentForm
 
@@ -38,13 +39,17 @@ def viewscammer(request, scammer_id):
 def vote_unvote_scammer(request, scammer_id):
     scammer = get_object_or_404(Scammer, id=scammer_id)
 
-    if request.user in scammer.voters.all():
-        scammer.votes -= 1
-        scammer.voters.remove(request.user)
+    if request.user == scammer.reported_by:
+        messages.error(request, "You cannot vote for your own scammer entry.")
     else:
-        scammer.votes += 1
-        scammer.voters.add(request.user)
+        if request.user in scammer.voters.all():
+            scammer.votes -= 1
+            scammer.voters.remove(request.user)
+        else:
+            scammer.votes += 1
+            scammer.voters.add(request.user)
 
-    scammer.save()
+        scammer.save()
+        messages.success(request, "Your vote has been recorded.")
 
     return redirect('viewscammer', scammer_id=scammer_id)
