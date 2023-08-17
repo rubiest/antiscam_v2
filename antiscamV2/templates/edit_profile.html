@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load custom_filters %}
+{% load static %}
 
 {% block content %}
 <div class="row justify-content-center">
@@ -12,6 +13,13 @@
         <form method="post" enctype="multipart/form-data">
           {% csrf_token %}
           <div class="mb-3">
+            <p class="text-center">
+              {% if user.profile_picture %}
+                  <img src="{{ user.profile_picture.url }}" class="rounded-circle" style="width:150px"alt="img-profile" title="{{ user.username }}">
+              {% else %}
+                  <img src="{% static 'images/placeholder.png' %}" class="rounded-circle" style="width:150px"alt="img-profile" title="{{ user.username }}">
+              {% endif %}
+            </p>
             <label for="profile_picture" class="form-label">Profile Picture</label>
             <input type="file" class="form-control" id="profile_picture" name="profile_picture">
           </div>

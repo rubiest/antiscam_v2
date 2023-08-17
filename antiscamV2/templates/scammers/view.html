@@ -57,10 +57,10 @@
                         <div class="row">
                             <div class="col-4">
                                 <p><b>Reported by</b><br>
-                                    {% if scammer.user.profile_picture %}
-                                        <img src="{{ scammer.user.profile_picture.url }}" class="rounded-circle" style="width:30px"alt="img-profile" title="{{ scammer.user.username }}">
+                                    {% if scammer.reported_by.profile_picture %}
+                                        <img src="{{ scammer.reported_by.profile_picture.url }}" class="rounded-circle" style="width:30px"alt="img-profile" title="{{ scammer.reported_by.username }}">
                                     {% else %}
-                                        <img src="{% static 'images/placeholder.png' %}" class="rounded-circle" style="width:30px"alt="img-profile" title="{{ scammer.user.username }}">
+                                        <img src="{% static 'images/placeholder.png' %}" class="rounded-circle" style="width:30px"alt="img-profile" title="{{ scammer.reported_by.username }}">
                                     {% endif %}
                                     {{ scammer.reported_by.first_name|add:" " }}{{ scammer.reported_by.last_name }} {% if scammer.reported_by.is_verified %}<i class="bi bi-patch-check-fill" style="font-size: 1rem; color: rgb(3, 90, 252);"></i>{% endif %}
                                 </p>
@@ -102,20 +102,29 @@
                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
                         <ol class="list-group list-group-flush">
                             {% for comment in comments %}
-                            <li class="list-group-item d-flex justify-content-between align-items-start">
-                                <div class="ms-2 me-auto">
-                                <div class="fw-bold">
-                                    {% if comment.user.profile_picture %}
-                                        <img src="{{ comment.user.profile_picture.url }}" class="rounded-circle" style="width:25px"alt="img-profile" title="{{ comment.user.username }}">
-                                    {% else %}
-                                        <img src="{% static 'images/placeholder.png' %}" class="rounded-circle" style="width:25px"alt="img-profile" title="{{ comment.user.username }}">
-                                    {% endif %}
-                                    {{ comment.user.first_name|add:" " }}{{ comment.user.last_name }} {% if comment.user.is_verified %}<i class="bi bi-patch-check-fill" style="font-size: 1rem; color: rgb(3, 90, 252);"></i>{% endif %}</div>
-                                {{ comment.comment }}
-                                </div>
-                                <span class="badge bg-primary rounded-pill">
-                                {{ comment.timestamp|date:"d-m-Y" }}
-                                </span>
+                            <li class="list-group-item">
+                                <figure>
+                                    <blockquote class="blockquote">
+                                      <p>
+                                        {{ comment.comment }}
+                                        <button type="button" class="btn float-end">
+                                            <i class="bi bi-flag" style="font-size: 1.2rem; color: rgb(252, 3, 3);" title="flag this comment"></i>
+                                        </button>
+                                    </p>
+                                    </blockquote>
+                                    <br>
+                                    <figcaption class="blockquote-footer">
+                                        {% if comment.user.profile_picture %}
+                                        <img src="{{ comment.user.profile_picture.url }}" class="rounded-circle" style="width:25px" alt="img-profile"
+                                            title="{{ comment.user.username }}">
+                                        {% else %}
+                                        <img src="{% static 'images/placeholder.png' %}" class="rounded-circle" style="width:25px" alt="img-profile"
+                                            title="{{ comment.user.username }}">
+                                        {% endif %}
+                                        {{ comment.user.first_name|add:" " }}{{ comment.user.last_name }} {% if comment.user.is_verified %}<i
+                                            class="bi bi-patch-check-fill" style="font-size: 1rem; color: rgb(3, 90, 252);"></i>{% endif %} at {{ comment.timestamp|date:"d-m-Y" }}
+                                    </figcaption>
+                                  </figure>
                             </li>
                             {% endfor %}
                         </ol>
