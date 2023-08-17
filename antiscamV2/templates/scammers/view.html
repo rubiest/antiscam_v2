@@ -22,6 +22,9 @@
                     <p class="text-center">
                         Location<br><b>{{ scammer.location }}</b>
                     </p>
+                    <p class="text-center">
+                        Total Voted<br><b>{{total_votes}}</b>
+                    </p>
                 </li>
             </ul>
         </div>
@@ -29,15 +32,22 @@
     <div class="col-8">
         <div class="card">
             <h3 class="card-header">
-                Scammer Profile <a href="{% url 'scammerlist' %}"
-                    class="btn btn-md btn-outline-primary float-end">Back</a>
+                Scammer Profile
+                <div class="btn-group float-end" role="group" aria-label="Basic example">
+                    {% if request.user in scammer.voters.all %}
+                    <a href="{% url 'vote-unvote-scammer' scammer_id=scammer.id %}" class="btn btn-secondary">Unvote</a>
+                    {% else %}
+                    <a href="{% url 'vote-unvote-scammer' scammer_id=scammer.id %}" class="btn btn-primary">Vote</a>
+                    {% endif %}
+                    <a href="{% url 'scammerlist' %}" class="btn btn-md btn-outline-primary">Back</a>
+                </div>
             </h3>
             <div class="card-body">
                 <div class="row">
                     <div class="col-12">
-                            <p><b>Brief Introduction</b><br>{{ scammer.brief_intro }}</p>
-                            <p><b>Modus Operandi</b><br>{{ scammer.modus_operandi }}</p>
-                            <div class="row">
+                        <p><b>Brief Introduction</b><br>{{ scammer.brief_intro }}</p>
+                        <p><b>Modus Operandi</b><br>{{ scammer.modus_operandi }}</p>
+                        <div class="row">
                             <div class="col-4">
                                 <p><b>Reported by</b><br>{{scammer.reported_by}}{% if user.is_verified %}<img
                                         src="{% static 'images/verify.png' %}" class="img-fluid"
@@ -51,21 +61,51 @@
                             </div>
                         </div>
                     </div>
+                    <hr>
+                    {% if user.is_authenticated %}
+                    <div class="col-12">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                {{ comment_form.as_p }}
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                    <hr>
+                    {% endif %}
                 </div>
-                {% if request.user in scammer.voters.all %}
-                <a href="{% url 'vote-unvote-scammer' scammer_id=scammer.id %}" class="btn btn-secondary">Unvote</a>
-                {% else %}
-                <a href="{% url 'vote-unvote-scammer' scammer_id=scammer.id %}" class="btn btn-primary">Vote</a>
-                {% endif %}
 
-                <form method="post">
-                    {% csrf_token %}
-                    {{ comment_form.as_p }}
-                    <button type="submit" class="btn btn-primary">Submit Comment</button>
-                </form>
-
-                <h3>Comments:</h3>
-                <pre>{{ scammer.comments }}</pre>
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                      <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+                        Comments <span class="badge text-bg-secondary">{{total_comments}}</span>
+                      </button>
+                      <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">
+                        Cases
+                      </button>
+                    </div>
+                  </nav>
+                  <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+                        <ol class="list-group list-group-flush">
+                            {% for comment in comments %}
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                <div class="fw-bold">{{ comment.user.username }}</div>
+                                {{ comment.comment }}
+                                </div>
+                                <span class="badge bg-primary rounded-pill">
+                                {{ comment.timestamp|date:"d-m-Y" }}
+                                </span>
+                            </li>
+                            {% endfor %}
+                        </ol>
+                    </div>
+                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                        Hello world
+                    </div>
+                  </div>
             </div>
         </div>
     </div>

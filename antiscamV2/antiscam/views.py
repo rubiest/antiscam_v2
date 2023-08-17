@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Scammer
+from .models import Scammer, Comment
 from .forms import CommentForm
 
 def home(request):
@@ -22,11 +22,15 @@ def viewscammer(request, scammer_id):
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
-            comment = comment_form.cleaned_data['comment']
-            scammer.comments += f"{request.user.username}: {comment}\n"
-            scammer.save()
+            comment_text = comment_form.cleaned_data['comment']
+            comment = Comment(user=request.user, scammer=scammer, comment=comment_text)
+            comment.save()
 
-    context = {'scammer': scammer, 'comment_form': comment_form}
+    comments = Comment.objects.filter(scammer=scammer)
+    total_votes = scammer.voters.count()
+    total_comments = comments.count()
+
+    context = {'scammer': scammer, 'comment_form': comment_form, 'comments': comments, 'total_votes': total_votes, 'total_comments': total_comments}
     return render(request, "scammers/view.html", context)
 
 @login_required(login_url='/signin/')

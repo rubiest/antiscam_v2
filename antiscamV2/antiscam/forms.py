@@ -8,4 +8,8 @@ class SearchCreateScammerForm(forms.Form):
     )
 
 class CommentForm(forms.Form):
-    comment = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}), required=True)
+    comment = forms.CharField(
+        label='Comment/Review',
+        widget=forms.Textarea(attrs={'rows': 2, 'class': 'form-control'}),
+        required=True
+    )
