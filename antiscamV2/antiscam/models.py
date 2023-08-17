@@ -42,6 +42,9 @@ class Scammer(models.Model):
     is_verified = models.BooleanField(default=False)
     date_reported = models.DateField()
     last_date_reported = models.DateField(null=True, blank=True)
+    votes = models.PositiveIntegerField(default=0)
+    voters = models.ManyToManyField(CustomUser, related_name='voted_scammers', blank=True)
+    comments = models.TextField(blank=True)
 
     def __str__(self):
         return self.name

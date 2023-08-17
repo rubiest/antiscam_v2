@@ -35,29 +35,37 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-12">
-                        <!-- <ul class="list-group list-group-flush"> -->
-                            <!-- <li class="list-group-item"> -->
-                                <p><b>Brief Introduction</b><br>{{ scammer.brief_intro }}</p>
-                            <!-- </li> -->
-                            <!-- <li class="list-group-item"> -->
-                                <p><b>Modus Operandi</b><br>{{ scammer.modus_operandi }}</p>
-                            <!-- </li> -->
+                            <p><b>Brief Introduction</b><br>{{ scammer.brief_intro }}</p>
+                            <p><b>Modus Operandi</b><br>{{ scammer.modus_operandi }}</p>
                             <div class="row">
-                                <div class="col-4">
-                                    <p><b>Reported by</b><br>{{scammer.reported_by}}{% if user.is_verified %}<img
-                                            src="{% static 'images/verify.png' %}" class="img-fluid"
-                                            alt="img-verified">{% endif %}</p>
-                                </div>
-                                <div class="col-4">
-                                    <p><b>Date Reported</b><br>{{scammer.date_reported|date:"d-m-Y"}}</p>
-                                </div>
-                                <div class="col-4">
-                                    <p><b>Last Date Reported</b><br>{{scammer.last_date_reported|date:"d-m-Y"}}</p>
-                                </div>
+                            <div class="col-4">
+                                <p><b>Reported by</b><br>{{scammer.reported_by}}{% if user.is_verified %}<img
+                                        src="{% static 'images/verify.png' %}" class="img-fluid"
+                                        alt="img-verified">{% endif %}</p>
                             </div>
-                        <!-- </ul> -->
+                            <div class="col-4">
+                                <p><b>Date Reported</b><br>{{scammer.date_reported|date:"d-m-Y"}}</p>
+                            </div>
+                            <div class="col-4">
+                                <p><b>Last Date Reported</b><br>{{scammer.last_date_reported|date:"d-m-Y"}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                {% if request.user in scammer.voters.all %}
+                <a href="{% url 'vote-unvote-scammer' scammer_id=scammer.id %}" class="btn btn-secondary">Unvote</a>
+                {% else %}
+                <a href="{% url 'vote-unvote-scammer' scammer_id=scammer.id %}" class="btn btn-primary">Vote</a>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    {{ comment_form.as_p }}
+                    <button type="submit" class="btn btn-primary">Submit Comment</button>
+                </form>
+
+                <h3>Comments:</h3>
+                <pre>{{ scammer.comments }}</pre>
             </div>
         </div>
     </div>

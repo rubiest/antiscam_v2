@@ -6,3 +6,6 @@ class SearchCreateScammerForm(forms.Form):
         max_length=13,
         widget=forms.TextInput(attrs={'class': 'form-control'})
     )
+
+class CommentForm(forms.Form):
+    comment = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}), required=True)
