@@ -29,8 +29,9 @@ def viewscammer(request, scammer_id):
     comments = Comment.objects.filter(scammer=scammer)
     total_votes = scammer.voters.count()
     total_comments = comments.count()
+    voters = scammer.voters.all()
 
-    context = {'scammer': scammer, 'comment_form': comment_form, 'comments': comments, 'total_votes': total_votes, 'total_comments': total_comments}
+    context = {'scammer': scammer, 'comment_form': comment_form, 'comments': comments, 'total_votes': total_votes, 'total_comments': total_comments, 'voters': voters}
     return render(request, "scammers/view.html", context)
 
 @login_required(login_url='/signin/')

@@ -23,7 +23,11 @@
                         Location<br><b>{{ scammer.location }}</b>
                     </p>
                     <p class="text-center">
-                        Total Voted<br><b>{{total_votes}}</b>
+                        Total Voted<br><b>{{total_votes}}</b><br>
+                        {% for voter in voters %}
+                        <img src="{% static 'images/placeholder.png' %}" class="img-fluid" style="width:30px"
+                    alt="img-profile" title="{{ voter.username }}">
+                        {% endfor %}
                     </p>
                 </li>
             </ul>
