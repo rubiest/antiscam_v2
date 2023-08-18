@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Scammer, Comment, Category, Location
+from .models import Scammer, Comment, Category, Location, Case
 from django.db.models import Q
 from .forms import CommentForm
+from django.utils import timezone
 
 def home(request):
     return render(request,"index.html")
@@ -53,11 +54,13 @@ def viewscammer(request, scammer_id):
             comment.save()
 
     comments = Comment.objects.filter(scammer=scammer)
+    cases = Case.objects.filter(scammer=scammer)
     total_votes = scammer.voters.count()
     total_comments = comments.count()
+    total_cases = cases.count()
     voters = scammer.voters.all()
 
-    context = {'scammer': scammer, 'comment_form': comment_form, 'comments': comments, 'total_votes': total_votes, 'total_comments': total_comments, 'voters': voters}
+    context = {'scammer': scammer, 'comment_form': comment_form, 'comments': comments, 'total_votes': total_votes, 'total_comments': total_comments, 'voters': voters, 'cases': cases, 'total_cases': total_cases}
     return render(request, "scammers/view.html", context)
 
 @login_required(login_url='/signin/')
@@ -78,3 +81,39 @@ def vote_unvote_scammer(request, scammer_id):
         messages.success(request, "Your vote has been recorded.")
 
     return redirect('viewscammer', scammer_id=scammer_id)
+
+@login_required(login_url='/signin/')
+def newcase(request, scammer_id):
+    scammer = get_object_or_404(Scammer, id=scammer_id)
+    categories = Category.objects.all()
+    context = {'categories': categories, 'scammer': scammer}
+
+    if request.method == "POST":
+        account_name = request.POST['account_name']
+        account_number = request.POST['account_number']
+        bank_name = request.POST['bank_name']
+        case_details = request.POST['case_details']
+        date_reported = request.POST['date_reported']
+        police_report = request.POST.get('police_report') == 'yes'
+        reported_by = request.user
+        last_date_reported = timezone.now().date()
+        category_id = request.POST['category']
+        category = Category.objects.get(id=category_id)
+
+        case = Case.objects.create(
+            account_name=account_name,
+            account_number=account_number,
+            bank_name=bank_name,
+            scammer=scammer,
+            case_details=case_details,
+            reported_by=reported_by,
+            police_report=police_report,
+            date_reported=date_reported,
+            last_date_reported=last_date_reported,
+            category = category
+        )
+        case.save()
+
+        return redirect('viewscammer', scammer_id=scammer_id)
+
+    return render(request, 'cases/new.html', context)

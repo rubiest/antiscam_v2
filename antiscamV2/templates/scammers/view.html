@@ -42,10 +42,11 @@
                 Scammer Profile
                 <div class="btn-group float-end" role="group" aria-label="Basic example">
                     {% if request.user in scammer.voters.all %}
-                    <a href="{% url 'vote-unvote-scammer' scammer_id=scammer.id %}" class="btn btn-sm btn-secondary">Unvote</a>
+                    <a href="{% url 'vote-unvote-scammer' scammer_id=scammer.id %}" class="btn btn-sm btn-secondary"><i class="bi bi-hand-thumbs-down"></i> Unvote</a>
                     {% else %}
-                    <a href="{% url 'vote-unvote-scammer' scammer_id=scammer.id %}" class="btn btn-sm btn-primary">Vote</a>
+                    <a href="{% url 'vote-unvote-scammer' scammer_id=scammer.id %}" class="btn btn-sm btn-primary"><i class="bi bi-hand-thumbs-up"></i> Vote</a>
                     {% endif %}
+                    <a href="{% url 'newcase' scammer_id=scammer.id %}" class="btn btn-sm btn-success"><i class="bi bi-file-earmark-plus"></i> New case</a>
                     <a href="{% url 'scammerlist' %}" class="btn btn-sm btn-outline-primary">Back</a>
                 </div>
             </h5>
@@ -90,16 +91,54 @@
 
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                      <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">
-                        Comments <span class="badge text-bg-secondary">{{total_comments}}</span>
-                      </button>
-                      <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">
-                        Cases
-                      </button>
+                        <button class="nav-link active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">
+                            Cases <span class="badge text-bg-secondary">{{total_cases}}</span>
+                        </button>
+                        <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+                            Comments <span class="badge text-bg-secondary">{{total_comments}}</span>
+                        </button>
                     </div>
                   </nav>
                   <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+                    <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                        {% for case in cases %}
+                        <div class="card {% if case.is_verified %}border-primary mb-3{% endif %}" style="margin-top:10px">
+                            <div class="card-body">
+                                <p><b>Case Details</b><br>{{case.case_details}}</p>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <p><small><b>Bank Name</b><br>{{case.bank_name}}</small></p>
+                                    </div>
+                                    <div class="col-3">
+                                        <p><small><b>Account Name</b><br>{{case.account_name}}</small></p>
+                                    </div>
+                                    <div class="col-3">
+                                        <p><small><b>Account Number</b><br>{{case.account_number}}</small></p>
+                                    </div>
+                                    <div class="col-3">
+                                        <p><small><b>Police Report</b><br>{{ case.get_police_report_display }}</small></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <p><small><b>Category</b><br>{{case.category}}</small></p>
+                                    </div>
+                                    <div class="col-3">
+                                        <p><small><b>Date Reported</b><br>{{case.date_reported|date:"d-m-Y"}}</small></p>
+                                    </div>
+                                    <div class="col-3">
+                                        <p><small><b>Last Reported</b><br>{{case.last_date_reported|date:"d-m-Y"}}</small></p>
+                                    </div>
+                                    <div class="col-3">
+                                        <p><small><b>Reported by</b><br>{{ case.reported_by.first_name|add:" " }}{{ case.reported_by.last_name }} {% if case.reported_by.is_verified %}<i class="bi bi-patch-check-fill" style="font-size: 1rem; color: rgb(3, 90, 252);"></i>{% endif %}</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
                         <ol class="list-group list-group-flush">
                             {% for comment in comments %}
                             <li class="list-group-item">
@@ -128,9 +167,6 @@
                             </li>
                             {% endfor %}
                         </ol>
-                    </div>
-                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
-                        Hello world
                     </div>
                   </div>
             </div>

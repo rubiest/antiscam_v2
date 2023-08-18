@@ -58,3 +58,25 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.scammer.name}"
+
+class Case(models.Model):
+    scammer = models.ForeignKey(Scammer, on_delete=models.CASCADE)
+    reported_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    account_number = models.CharField(max_length=13, default='')
+    account_name = models.CharField(max_length=255, default='')
+    bank_name = models.CharField(max_length=255, default='')
+    case_details = models.TextField(default='')
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_reported = models.DateField()
+    is_verified = models.BooleanField(default=False)
+    last_date_reported = models.DateField(null=True, blank=True)
+
+    POLICE_REPORT_CHOICES = [
+        (True, 'Yes'),
+        (False, 'No'),
+    ]
+    police_report = models.BooleanField(choices=POLICE_REPORT_CHOICES, default=False)
+
+    def __str__(self):
+        return self.case_details

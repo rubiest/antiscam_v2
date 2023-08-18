@@ -12,6 +12,7 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('scammer-lists/', views.scammerlist, name='scammerlist'),
     path('scammer-details/<int:scammer_id>', views.viewscammer, name='viewscammer'),
+    path('scammer-details/<int:scammer_id>/case/new', views.newcase, name='newcase'),
     path('vote-unvote-scammer/<int:scammer_id>/', views.vote_unvote_scammer, name='vote-unvote-scammer'),
     #authentication
     path('register/', register, name='register'),
