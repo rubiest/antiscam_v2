@@ -100,12 +100,15 @@ def newcase(request, scammer_id):
         category_id = request.POST['category']
         category = Category.objects.get(id=category_id)
 
+        is_verified = police_report
+
         case = Case.objects.create(
             account_name=account_name,
             account_number=account_number,
             bank_name=bank_name,
             scammer=scammer,
             case_details=case_details,
+            is_verified=is_verified,
             reported_by=reported_by,
             police_report=police_report,
             date_reported=date_reported,

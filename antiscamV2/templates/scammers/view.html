@@ -104,33 +104,43 @@
                         {% for case in cases %}
                         <div class="card {% if case.is_verified %}border-primary mb-3{% endif %}" style="margin-top:10px">
                             <div class="card-body">
-                                <p><b>Case Details</b><br>{{case.case_details}}</p>
-                                <hr>
                                 <div class="row">
-                                    <div class="col-3">
-                                        <p><small><b>Bank Name</b><br>{{case.bank_name}}</small></p>
+                                    <div class="col-10">
+                                        <p><b>Case Details</b><br>{{case.case_details}}</p>
                                     </div>
-                                    <div class="col-3">
-                                        <p><small><b>Account Name</b><br>{{case.account_name}}</small></p>
-                                    </div>
-                                    <div class="col-3">
-                                        <p><small><b>Account Number</b><br>{{case.account_number}}</small></p>
-                                    </div>
-                                    <div class="col-3">
+                                    <div class="col-2">
                                         <p><small><b>Police Report</b><br>{{ case.get_police_report_display }}</small></p>
                                     </div>
                                 </div>
+                                <hr>
                                 <div class="row">
-                                    <div class="col-3">
+                                    {% if case.bank_name %}
+                                    <div class="col">
+                                        <p><small><b>Bank Name</b><br>{{case.bank_name}}</small></p>
+                                    </div>
+                                    {% endif %}
+                                    {% if case.account_name %}
+                                    <div class="col">
+                                        <p><small><b>Account Name</b><br>{{case.account_name}}</small></p>
+                                    </div>
+                                    {% endif %}
+                                    {% if case.account_number %}
+                                    <div class="col">
+                                        <p><small><b>Account Number</b><br>{{case.account_number}}</small></p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="row">
+                                    <div class="col">
                                         <p><small><b>Category</b><br>{{case.category}}</small></p>
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col">
                                         <p><small><b>Date Reported</b><br>{{case.date_reported|date:"d-m-Y"}}</small></p>
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col">
                                         <p><small><b>Last Reported</b><br>{{case.last_date_reported|date:"d-m-Y"}}</small></p>
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col">
                                         <p><small><b>Reported by</b><br>{{ case.reported_by.first_name|add:" " }}{{ case.reported_by.last_name }} {% if case.reported_by.is_verified %}<i class="bi bi-patch-check-fill" style="font-size: 1rem; color: rgb(3, 90, 252);"></i>{% endif %}</small></p>
                                     </div>
                                 </div>
